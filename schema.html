@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schéma de gouvernance UGL – Gouvernance matricielle</title>
+<style>
+  :root {
+    --teal:      #005D83;
+    --teal-dark: #00202D;
+    --teal-mid:  #0079A6;
+    --lime:      #9DBB2E;
+    --cyan:      #00B7F1;
+    --bg:        #F0F7FB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Aptos, Arial, sans-serif;
+    background: white;
+    padding: 32px 40px 40px;
+    color: #1a2e3b;
+  }
+
+  /* ── HEADER ── */
+  .schema-eyebrow {
+    text-align: center;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--lime);
+    margin-bottom: 10px;
+  }
+  .schema-title {
+    text-align: center;
+    font-size: 20px; font-weight: 700; color: var(--teal-dark);
+    line-height: 1.3; margin-bottom: 10px;
+  }
+  .schema-subtitle {
+    text-align: center;
+    font-size: 13px; color: #5a7585;
+    max-width: 700px; margin: 0 auto 36px;
+    line-height: 1.6;
+  }
+
+  /* ── TOP ROW: UGS + ONPPC ── */
+  .top-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 0;
+  }
+
+  /* ── BOXES ── */
+  .box {
+    flex: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,30,50,.11);
+    display: flex;
+    flex-direction: column;
+  }
+  .box-head {
+    padding: 16px 20px 14px;
+    color: white; text-align: center;
+  }
+  .box-head .acronym {
+    font-size: 26px; font-weight: 800; letter-spacing: 2px;
+    display: block; line-height: 1;
+  }
+  .box-head .full-name {
+    font-size: 11px; opacity: .82;
+    display: block; margin-top: 4px; line-height: 1.3;
+  }
+  .box-body {
+    background: white; flex: 1;
+    padding: 22px 26px 26px;
+    border: 1px solid #e0ecf4; border-top: none;
+    border-radius: 0 0 12px 12px;
+  }
+  .box-role {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 10px;
+    padding-bottom: 7px; border-bottom: 2px solid;
+  }
+  .box-items {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .box-items li {
+    font-size: 12.5px; color: #2a4455;
+    padding-left: 16px; position: relative; line-height: 1.35;
+  }
+  .box-items li::before {
+    content: ''; position: absolute; left: 0; top: 5px;
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+
+  /* UGS */
+  .ugs .box-head                { background: var(--teal-dark); }
+  .ugs .box-role                { color: var(--teal-dark); border-color: var(--teal-dark); }
+  .ugs .box-items li::before    { background: var(--teal-dark); }
+
+  /* ONPPC */
+  .onppc .box-head              { background: var(--teal-mid); }
+  .onppc .box-role              { color: var(--teal-mid); border-color: var(--cyan); }
+  .onppc .box-items li::before  { background: var(--cyan); }
+
+  /* UGL */
+  .ugl-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+  }
+  .ugl {
+    width: 58%;
+    box-shadow: 0 8px 30px rgba(0,93,131,.22);
+    border: 2px solid var(--teal);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ugl .box-head                { background: var(--teal); }
+  .ugl .box-role                { color: var(--teal); border-color: var(--lime); }
+  .ugl .box-items li::before    { background: var(--lime); }
+  .ugl .box-body                { border: none; }
+
+  .badge-new {
+    display: inline-block;
+    background: var(--lime); color: white;
+    font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 2px 8px;
+    border-radius: 20px; margin-bottom: 5px;
+  }
+  .ugl-location {
+    font-size: 10.5px; color: rgba(255,255,255,.78);
+    font-style: italic; display: flex; align-items: center;
+    justify-content: center; gap: 4px; margin-top: 3px;
+  }
+
+  /* ── CONNECTOR SVG ── */
+  .connector { display: block; width: 100%; overflow: visible; }
+
+  /* ── GOVERNANCE NOTE ── */
+  .governance-note {
+    background: var(--bg);
+    border-left: 4px solid var(--lime);
+    border-radius: 0 8px 8px 0;
+    padding: 13px 18px;
+    font-size: 12.5px; color: #2a4455; line-height: 1.65;
+    margin-top: 28px;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; gap: 32px; justify-content: center;
+    flex-wrap: wrap; margin-top: 20px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: #2a4455;
+  }
+
+  /* ── FOOTER ── */
+  .schema-footer {
+    text-align: center;
+    font-size: 10.5px; color: #8fa8b8;
+    padding-top: 20px; margin-top: 24px;
+    border-top: 1px solid #dce8f0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    body { padding: 20px 14px; }
+    .top-row { flex-direction: column; gap: 16px; }
+    .ugl { width: 100%; }
+    .connector { height: 80px; }
+  }
+  @media print {
+    body { padding: 16px 20px; }
+    .box { box-shadow: none; border: 1px solid #ccdde8; }
+    .ugl { border: 2px solid var(--teal); box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="schema-eyebrow">Architecture de gouvernance · Fonds Mondial RSS Niger</div>
+<h1 class="schema-title">Gouvernance matricielle de l'UGL</h1>
+<p class="schema-subtitle">L'UGL dispose d'une double ligne d'autorité : fiduciaire vers l'UGS, technique et opérationnelle vers l'ONPPC — sans créer de structure parallèle ni de hiérarchie ambiguë entre les deux entités.</p>
+
+<!-- TOP ROW -->
+<div class="top-row">
+
+  <div class="box ugs">
+    <div class="box-head">
+      <span class="acronym">UGS</span>
+      <span class="full-name">Unité de Gestion des Subventions FM<br>Principal Récipiendaire</span>
+    </div>
+    <div class="box-body">
+      <div class="box-role">Autorité fiduciaire</div>
+      <ul class="box-items">
+        <li>Gestion financière des subventions</li>
+        <li>Passation des marchés</li>
+        <li>Conformité Fonds Mondial</li>
+        <li>Reporting bailleurs</li>
+        <li>Gestion des risques fiduciaires</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box onppc">
+    <div class="box-head">
+      <span class="acronym">ONPPC</span>
+      <span class="full-name">Office National des Produits<br>Pharmaceutiques et Chimiques</span>
+    </div>
+    <div class="box-body">
+      <div class="box-role">Autorité technique & opérationnelle</div>
+      <ul class="box-items">
+        <li>Gestion des entrepôts</li>
+        <li>Distribution des produits de santé</li>
+        <li>Opérations logistiques quotidiennes</li>
+        <li>Maintenance des infrastructures</li>
+        <li>Exploitation des équipements</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONNECTOR SVG -->
+<svg class="connector" viewBox="0 0 800 110" xmlns="http://www.w3.org/2000/svg" style="margin-top:-2px;">
+
+  <!-- Left line: UGS → UGL (fiduciary, dark teal, solid) -->
+  <line x1="200" y1="4" x2="370" y2="96" stroke="#00202D" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- Left arrowhead pointing to UGL -->
+  <polyline points="354.8,94.6 370,96 360.5,84.1" stroke="#00202D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Right line: ONPPC → UGL (technical, teal-mid, dashed) -->
+  <line x1="600" y1="4" x2="430" y2="96" stroke="#0079A6" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="8,5"/>
+  <!-- Right arrowhead -->
+  <polyline points="439.5,84.1 430,96 445.2,94.6" stroke="#0079A6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Left label -->
+  <rect x="60" y="36" width="188" height="32" rx="5" fill="#00202D" fill-opacity=".07"/>
+  <text x="154" y="50" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700" fill="#00202D" letter-spacing="0.3">Autorité fiduciaire</text>
+  <text x="154" y="64" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#00202D" opacity=".7">Administrative &amp; financière</text>
+
+  <!-- Right label -->
+  <rect x="552" y="36" width="200" height="32" rx="5" fill="#0079A6" fill-opacity=".07"/>
+  <text x="652" y="50" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700" fill="#0079A6" letter-spacing="0.3">Autorité technique</text>
+  <text x="652" y="64" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#0079A6" opacity=".7">&amp; opérationnelle</text>
+
+</svg>
+
+<!-- UGL BOX (centered below) -->
+<div class="ugl-wrap">
+  <div class="box ugl">
+    <div class="box-head">
+      <div><span class="badge-new">Nouveau</span></div>
+      <span class="acronym">UGL</span>
+      <span class="full-name">Unité de Gestion Logistique</span>
+      <div class="ugl-location">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C8.69 2 6 4.69 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.31-2.69-6-6-6z" fill="rgba(255,255,255,.55)" stroke="rgba(255,255,255,.85)" stroke-width="1.5"/>
+          <circle cx="12" cy="8" r="2.2" fill="rgba(255,255,255,.85)"/>
+        </svg>
+        Hébergée à l'ONPPC
+      </div>
+    </div>
+    <div class="box-body">
+      <div class="box-role">Gouvernance technique des investissements logistiques RSS</div>
+      <ul class="box-items" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;">
+        <li>Planification des investissements</li>
+        <li>Préparation des TDR &amp; spécifications</li>
+        <li>Suivi des Bonnes Pratiques (GWP)</li>
+        <li>Gestion des actifs logistiques</li>
+        <li>Suivi des contrats d'infrastructure</li>
+        <li>Tableaux de bord &amp; reporting technique</li>
+        <li>Maintenance préventive</li>
+        <li>Suivi des audits &amp; recommandations</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item">
+    <svg width="44" height="12" viewBox="0 0 44 12">
+      <line x1="0" y1="6" x2="44" y2="6" stroke="#00202D" stroke-width="2.2"/>
+      <polyline points="34,1 44,6 34,11" stroke="#00202D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span>Autorité fiduciaire (UGS → UGL)</span>
+  </div>
+  <div class="legend-item">
+    <svg width="44" height="12" viewBox="0 0 44 12">
+      <line x1="0" y1="6" x2="44" y2="6" stroke="#0079A6" stroke-width="2.2" stroke-dasharray="6,4"/>
+      <polyline points="34,1 44,6 34,11" stroke="#0079A6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span>Autorité technique &amp; opérationnelle (ONPPC → UGL)</span>
+  </div>
+</div>
+
+<!-- Governance note -->
+<div class="governance-note">
+  <strong>Principe de gouvernance matricielle :</strong> L'UGL est administrativement et financièrement redevable devant le Directeur de l'UGS, qui assure la conformité fiduciaire des subventions FM. Elle relève techniquement et opérationnellement de la Direction Générale de l'ONPPC, qui exerce l'autorité sur les opérations logistiques. Cette organisation évite toute structure parallèle et garantit que la fonction technique est exercée là où les investissements produisent des résultats.
+</div>
+
+<div class="schema-footer">
+  Chemonics International · Niger PSM · Juin 2026 · Document de travail confidentiel
+</div>
+
+</body>
+</html>
